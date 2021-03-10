@@ -10,13 +10,7 @@
   <section class="section">
     <div class="container">
       <div class="content">
-        <router-link to="/puzzle">Puzzle</router-link>
-        <router-link
-          v-if="state.completePage > 0"
-          :to="'/' + state.completePage"
-        >
-          Continue</router-link
-        >
+        {{ state.exampleShared }}
       </div>
     </div>
   </section>

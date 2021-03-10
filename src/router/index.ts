@@ -6,15 +6,7 @@ export const routes: RouteRecordRaw[] = [
     name: "Home",
     component: () => import("../views/Home.vue"),
     meta: {
-      title: "start",
-    },
-  },
-  {
-    path: "/puzzle",
-    name: "Puzzle",
-    component: () => import("../views/Puzzle.vue"),
-    meta: {
-      title: "puzzle",
+      title: "Home",
     },
   },
   {
@@ -34,7 +26,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  document.title = to.meta.title as string;
+  document.title = (to.meta?.title as string) || "Vue";
   next();
 });
 
