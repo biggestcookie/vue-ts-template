@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 import { Store } from "../store";
 
-class Home extends Vue {
-  private readonly state = Store.state;
-}
-
-export default Home;
+export default defineComponent({
+  data: () => ({
+    state: Store.state,
+  }),
+});
 </script>

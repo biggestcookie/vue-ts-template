@@ -40,15 +40,16 @@ body {
 </style>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 
-class App extends Vue {
-  navbarBurgerToggled = false;
-
-  toggleNavbar(setValue?: boolean) {
-    this.navbarBurgerToggled = setValue ?? !this.navbarBurgerToggled;
-  }
-}
-
-export default App;
+export default defineComponent({
+  data: () => ({
+    navbarBurgerToggled: false,
+  }),
+  methods: {
+    toggleNavbar(setValue?: boolean) {
+      this.navbarBurgerToggled = setValue ?? !this.navbarBurgerToggled;
+    },
+  },
+});
 </script>

@@ -6,8 +6,6 @@
     "[vue]": {
         "editor.defaultFormatter": "octref.vetur"
     },
-    "eslint.format.enable": true,
-    "eslint.lintTask.enable": true,
     "eslint.validate": [
         "vue",
         "javascript",
