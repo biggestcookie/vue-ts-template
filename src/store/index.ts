@@ -14,11 +14,6 @@ export class Store {
   public static setExampleValue(value: number) {
     Store._state.exampleShared = value;
   }
-
-  private static log() {
-    console.log("Public state: " + Store.state.exampleShared);
-    console.log("Private state: " + Store._state.exampleShared);
-  }
 }
 
 new Store();
