@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import Home from "/@/views/home.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
+    component: Home,
     meta: {
-      title: "Home",
+      title: "home",
     },
   },
   {
     path: "/404",
-    component: () => import("../views/404.vue"),
+    component: () => import("/@/views/404.vue"),
     meta: {
       title: "404 not found",
     },
@@ -27,7 +28,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  document.title = (to.meta?.title as string) || "Vue";
+  document.title = (to.meta?.title as string) || "vue";
   next();
 });
 

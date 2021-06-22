@@ -18,26 +18,26 @@
       >
         <div class="navbar-start">
           <div class="navbar-item">
-            <router-link to="/">A link</router-link>
+            <router-link to="/404">A link</router-link>
           </div>
         </div>
         <div class="navbar-end">
           <div class="navbar-item">
-            <router-link to="/"> Another link</router-link>
+            <router-link to="/404"> Another link</router-link>
           </div>
         </div>
       </div>
     </div>
   </nav>
   <router-view v-slot="{ Component }">
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <component :is="Component" />
     </transition>
   </router-view>
 </template>
 
 <style lang="scss">
-* {
+a {
   -o-transition: 0.5s;
   -ms-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -48,10 +48,6 @@
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
-}
-
-.fade-enter-active {
-  transition-delay: 0.5s;
 }
 
 .fade-enter-from,
