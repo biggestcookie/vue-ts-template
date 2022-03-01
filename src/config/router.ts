@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "/@/views/home.vue";
+import Home from "../views/Home.vue";
 
-export const routes: RouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
     component: Home,
     meta: {
-      title: "home",
+      title: "welcome",
     },
   },
   {
     path: "/404",
-    component: () => import("/@/views/404.vue"),
+    component: () => import("../views/NotFound.vue"),
     meta: {
       title: "404 not found",
     },
@@ -24,12 +24,14 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior: (to) =>
-    to.hash ? { el: to.hash, behavior: "smooth" } : { top: 0, left: 0 },
+    to.hash
+      ? { el: to.hash, behavior: "smooth" }
+      : { top: 0, left: 0, behavior: "smooth" },
 });
 
 router.beforeEach((to, _, next) => {
-  document.title = (to.meta?.title as string) || "vue";
+  document.title = `Vue App ${to.meta.title ?? ""}`;
   next();
 });
 
-export default router;
+export { router, routes };

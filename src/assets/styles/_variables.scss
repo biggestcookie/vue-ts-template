@@ -7,7 +7,7 @@ $family-secondary: "Inter", -apple-system, system-ui, BlinkMacSystemFont, Arial,
   sans-serif;
 
 /* Colors */
-$primary: #272d38;
+$primary: #2a364d;
 $secondary: #93b7be;
 
-@import "bulma/bulma";
+$navbar-breakpoint: 3000px;
