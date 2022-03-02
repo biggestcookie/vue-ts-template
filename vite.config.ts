@@ -11,7 +11,7 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      css: {
+      scss: {
         charset: false,
       },
     },
