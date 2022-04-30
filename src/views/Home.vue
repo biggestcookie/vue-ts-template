@@ -3,61 +3,34 @@ import { ref } from "vue";
 import Leaderboard from "../components/Leaderboard.vue";
 import Tos from "../components/Tos.vue";
 
-const tosSubmitted = ref(false);
-const startTime = ref(performance.now());
-const endTime = ref(0);
-const username = ref("");
+const tosComplete = ref(false);
+const submission = ref({
+  username: "",
+  totalTime: 0,
+});
 
-const submitTos = (event: Event) => {
-  event.preventDefault();
-  tosSubmitted.value = true;
-  endTime.value = performance.now();
-};
-
-const submitName = async (event: Event) => {
-  event.preventDefault();
-  const submitter = (event.target as any)["username"].value as string;
-  username.value = submitter;
-};
+/**
+ * On Tos completion, record submitted username and time,
+ * then mount Leaderboard component
+ */
+function onSubmitTos(username: string, totalTime: number) {
+  submission.value = {
+    username,
+    totalTime,
+  };
+  tosComplete.value = true;
+}
 </script>
 
 <template>
   <section className="section">
     <div className="columns is-centered">
-      <div className="column is-half">
-        <div v-if="!tosSubmitted" className="content">
-          <Tos @submit="submitTos" />
-        </div>
-        <div v-else-if="!username.length">
-          <div className="content has-text-centered">
-            <div className="title">
-              <h2>Complete!</h2>
-            </div>
-            <form @submit="submitName($event)">
-              <div className="field has-addons is-justify-content-center">
-                <div className="control">
-                  <input
-                    className="input"
-                    type="text"
-                    pattern="[A-Za-z0-9]+"
-                    name="username"
-                    placeholder="Enter your username "
-                    autoComplete="off"
-                    autoFocus
-                    required
-                  />
-                </div>
-                <div className="control">
-                  <input type="submit" className="button is-primary" />
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+      <div className="column is-one-third">
+        <Tos v-if="!tosComplete" @submitTos="onSubmitTos" />
         <Leaderboard
           v-else
-          :totalTime="endTime - startTime"
-          :username="username"
+          :totalTime="submission.totalTime"
+          :username="submission.username"
         />
       </div>
     </div>

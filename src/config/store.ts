@@ -1,10 +1,14 @@
 import { StorageSerializers, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
+import { SpeedrunData } from "../../../shared/models/speedrun-data";
 
-export const store = defineStore("store", {
+export const useStore = defineStore("store", {
   state: () => ({
-    token: useStorage("token", null, undefined, {
+    lastUsername: useStorage("lastUsername", null, undefined, {
       serializer: StorageSerializers.string,
     }),
+    submittedRun: null as SpeedrunData | null,
+    topResults: [] as SpeedrunData[],
+    userResults: [] as SpeedrunData[],
   }),
 });

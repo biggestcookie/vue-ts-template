@@ -3,15 +3,15 @@ import { ref } from "vue";
 
 const navbarBurgerToggled = ref(false);
 
-const toggleNavbar = (setValue?: boolean) => {
+function toggleNavbar(setValue?: boolean) {
   navbarBurgerToggled.value = setValue ?? !navbarBurgerToggled.value;
-};
+}
 </script>
 
 <template>
   <nav class="navbar is-primary">
     <div class="navbar-brand">
-      <a href="/" class="navbar-item" @click="toggleNavbar(false)">
+      <a href="/" class="navbar-item" @click.stop="toggleNavbar(false)">
         <h1 class="is-size-5">Vue App</h1>
       </a>
       <a

@@ -1,35 +1,40 @@
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
-import { SpeedrunData } from "../../../shared/models/speedrun-data";
+import { onMounted } from "vue";
 import { getSpeedruns, submitSpeedrun } from "../api/speedruns";
+import { useStore } from "../config/store";
 
+const store = useStore();
 const props = defineProps<{ totalTime: number; username: string }>();
 
-const state = reactive({
-  submittedRun: {} as SpeedrunData,
-  topResults: [] as SpeedrunData[],
-  userResults: [] as SpeedrunData[],
-});
-
 onMounted(async () => {
-  state.submittedRun = await submitSpeedrun({
+  // Submit current run to API
+  submitSpeedrun({
     username: props.username,
     totalTimeMilliseconds: Math.round(props.totalTime),
+  }).then(async (response) => {
+    store.submittedRun = response;
+
+    // Get latest top times & user times from API
+    [store.topResults, store.userResults] = await Promise.all([
+      getSpeedruns(),
+      getSpeedruns(store.submittedRun.userId),
+    ]);
   });
-  [state.topResults, state.userResults] = await Promise.all([
-    getSpeedruns(),
-    getSpeedruns(state.submittedRun.userId),
-  ]);
 });
 
-const msToElapsedString = (totalms: number): string => {
+/**
+ * Converts milliseconds to a formatted timestring
+ *
+ * Example: `msToElapsedString(7889456123456)` outputs: '3h 35m 23s 456ms'
+ */
+function msToElapsedString(totalms: number): string {
   const ms = totalms % 1000;
   const seconds = Math.floor((totalms / 1000) % 60);
   const minutes = Math.floor((totalms / (1000 * 60)) % 60);
   const hours = Math.floor((totalms / (1000 * 60 * 60)) % 24);
 
   return `${hours ? hours + "h" : ""} ${minutes}m ${seconds}s ${ms}ms`;
-};
+}
 </script>
 
 <template>
@@ -37,7 +42,7 @@ const msToElapsedString = (totalms: number): string => {
     <div className="block">
       <h2 className="title">{{ username }}&apos;s time:</h2>
       <p className="subtitle">
-        {{ msToElapsedString(state.submittedRun.totalTimeMilliseconds) }}
+        {{ msToElapsedString(store.submittedRun?.totalTimeMilliseconds) }}
       </p>
     </div>
     <div className="block">
@@ -52,9 +57,9 @@ const msToElapsedString = (totalms: number): string => {
         </thead>
         <tbody>
           <tr
-            v-for="(result, index) in state.topResults"
+            v-for="(result, index) in store.topResults"
             :key="index"
-            :class="state.submittedRun.id === result.id ? 'is-selected' : ''"
+            :class="store.submittedRun.id === result.id ? 'is-selected' : ''"
           >
             <th>{{ index + 1 }}</th>
             <td>{{ result.username }}</td>
@@ -75,9 +80,9 @@ const msToElapsedString = (totalms: number): string => {
         </thead>
         <tbody>
           <tr
-            v-for="(result, index) in state.userResults"
+            v-for="(result, index) in store.userResults"
             :key="index"
-            :class="state.submittedRun.id === result.id ? 'is-selected' : ''"
+            :class="store.submittedRun.id === result.id ? 'is-selected' : ''"
           >
             <th>{{ index + 1 }}</th>
             <td>{{ result.username }}</td>
