@@ -6,7 +6,7 @@ import { useStore } from "../config/store";
 const store = useStore();
 const props = defineProps<{ totalTime: number; username: string }>();
 
-onMounted(async () => {
+onMounted(() => {
   // Submit current run to API
   submitSpeedrun({
     username: props.username,
