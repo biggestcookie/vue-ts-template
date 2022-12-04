@@ -41,8 +41,8 @@ function msToElapsedString(totalms: number): string {
   <div className="content has-text-centered">
     <div className="block">
       <h2 className="title">{{ username }}&apos;s time:</h2>
-      <p className="subtitle">
-        {{ msToElapsedString(store.submittedRun?.totalTimeMilliseconds) }}
+      <p className="subtitle" v-if="store.submittedRun">
+        {{ msToElapsedString(store.submittedRun.totalTimeMilliseconds) }}
       </p>
     </div>
     <div className="block">
@@ -59,7 +59,7 @@ function msToElapsedString(totalms: number): string {
           <tr
             v-for="(result, index) in store.topResults"
             :key="index"
-            :class="store.submittedRun.id === result.id ? 'is-selected' : ''"
+            :class="store.submittedRun?.id === result.id ? 'is-selected' : ''"
           >
             <th>{{ index + 1 }}</th>
             <td>{{ result.username }}</td>
@@ -82,7 +82,7 @@ function msToElapsedString(totalms: number): string {
           <tr
             v-for="(result, index) in store.userResults"
             :key="index"
-            :class="store.submittedRun.id === result.id ? 'is-selected' : ''"
+            :class="store.submittedRun?.id === result.id ? 'is-selected' : ''"
           >
             <th>{{ index + 1 }}</th>
             <td>{{ result.username }}</td>
